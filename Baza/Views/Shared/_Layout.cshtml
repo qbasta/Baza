@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+<body style=" background-color:darkslategrey;"></body>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,11 +10,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Baza.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand">Strona miasta</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -33,13 +35,13 @@
 
                         <li class="nav-item">
                             <button type="button" class="btn-primary">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Notice">Ogłoszenia</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Announcements">Ogłoszenia</a>
                             </button>
                         </li>
 
                         <li class="nav-item">
                             <button type="button" class="btn-primary">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddNotice">Dodaj ogłoszenie</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddNotice">Dodaj zgłoszenie</a>
                             </button>
                         </li>
 
@@ -53,6 +55,7 @@
                             <button type="button" class="btn-primary">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">Informacje</a>
                             </button>
+                            <p style=" =" background-image: src="~/Users/Admin/Desktop/Panorama Białegostoku.jpg"></p>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -68,12 +71,13 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Baza - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Strona miasta Białystok - <a asp-area="" asp-controller="Home" asp-action="Privacy">Wszelkie prawa zastrzeżone.</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>
