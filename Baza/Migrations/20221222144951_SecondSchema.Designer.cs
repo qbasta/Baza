@@ -4,6 +4,7 @@ using Baza.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Baza.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221222144951_SecondSchema")]
+    partial class SecondSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +50,7 @@ namespace Baza.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Aktualnosci", (string)null);
+                    b.ToTable("Aktualnosci");
                 });
 
             modelBuilder.Entity("Baza.Models.Burmistrz", b =>
@@ -75,7 +77,7 @@ namespace Baza.Migrations
 
                     b.HasKey("id_Miejscowosci");
 
-                    b.ToTable("Burmistrz", (string)null);
+                    b.ToTable("Burmistrz");
                 });
 
             modelBuilder.Entity("Baza.Models.Miejscowosc", b =>
@@ -98,7 +100,7 @@ namespace Baza.Migrations
 
                     b.HasKey("idMiejscowosci");
 
-                    b.ToTable("Miejscowosc", (string)null);
+                    b.ToTable("Miejscowosc");
                 });
 
             modelBuilder.Entity("Baza.Models.MiejscowoscOgloszenia", b =>
@@ -127,7 +129,7 @@ namespace Baza.Migrations
 
                     b.HasIndex("OgloszeniaidOgloszenia");
 
-                    b.ToTable("MiejscowoscOgloszenia", (string)null);
+                    b.ToTable("MiejscowoscOgloszenia");
                 });
 
             modelBuilder.Entity("Baza.Models.MiejscowoscUslugi", b =>
@@ -156,7 +158,7 @@ namespace Baza.Migrations
 
                     b.HasIndex("UslugiPubliczneidUslugiPublicznej");
 
-                    b.ToTable("MiejscowoscUslugi", (string)null);
+                    b.ToTable("MiejscowoscUslugi");
                 });
 
             modelBuilder.Entity("Baza.Models.MiejscowoscUsterki", b =>
@@ -185,7 +187,7 @@ namespace Baza.Migrations
 
                     b.HasIndex("UsterkiidUsterki");
 
-                    b.ToTable("MiejscowoscUsterki", (string)null);
+                    b.ToTable("MiejscowoscUsterki");
                 });
 
             modelBuilder.Entity("Baza.Models.Ogloszenia", b =>
@@ -217,7 +219,7 @@ namespace Baza.Migrations
 
                     b.HasIndex("UsterkaidUsterki");
 
-                    b.ToTable("Ogloszenia", (string)null);
+                    b.ToTable("Ogloszenia");
                 });
 
             modelBuilder.Entity("Baza.Models.UrzadMiastaInfo", b =>
@@ -241,7 +243,7 @@ namespace Baza.Migrations
 
                     b.HasKey("id_Miejscowosci");
 
-                    b.ToTable("UrzadMiastaInfo", (string)null);
+                    b.ToTable("UrzadMiastaInfo");
                 });
 
             modelBuilder.Entity("Baza.Models.UslugiPubliczne", b =>
@@ -270,7 +272,7 @@ namespace Baza.Migrations
 
                     b.HasKey("idUslugiPublicznej");
 
-                    b.ToTable("UslugiPubliczne", (string)null);
+                    b.ToTable("UslugiPubliczne");
                 });
 
             modelBuilder.Entity("Baza.Models.Usterki", b =>
@@ -300,7 +302,7 @@ namespace Baza.Migrations
 
                     b.HasKey("idUsterki");
 
-                    b.ToTable("Usterki", (string)null);
+                    b.ToTable("Usterki");
                 });
 
             modelBuilder.Entity("Baza.Models.Zabytek", b =>
@@ -341,7 +343,7 @@ namespace Baza.Migrations
 
                     b.HasIndex("MiejscowoscidMiejscowosci");
 
-                    b.ToTable("Zabytek", (string)null);
+                    b.ToTable("Zabytek");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

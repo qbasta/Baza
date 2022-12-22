@@ -1,0 +1,48 @@
+﻿@model Baza.Models.Usterki
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Usterki</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.typUsterki)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.typUsterki)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Miejscowosc)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Miejscowosc)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dataZgloszenia)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dataZgloszenia)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.opis)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.opis)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.idUsterki">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

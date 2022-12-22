@@ -32,13 +32,13 @@ namespace Baza.Controllers
         }
 
         
-        public IActionResult DodajUsterke()
+        public IActionResult Usterki()
         {   
             return View();
         }
 
         
-        public IActionResult DodajOgloszenie()
+        public IActionResult Ogloszenia()
         {
            
             return View();

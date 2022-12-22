@@ -25,10 +25,11 @@ namespace Baza.Models
         [Required]
         public string opis { get; set; }
 
+        /*
         [DataType(DataType.Upload)]
         [Display(Name = "Wyślij plik")]
         public byte[] zdjecie { get; set; }
-
+        */
       
         public virtual ICollection<MiejscowoscOgloszenia> MiejscowoscOgloszenia { get; set; }
         public virtual Usterki Usterka { get; set; }
