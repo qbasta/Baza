@@ -8,7 +8,6 @@ namespace Baza.Models
     {
         [Key]
         [ForeignKey("Miejscowosc")]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id_Miejscowosci { get; set; }
 
         [Display(Name = "Imie")]

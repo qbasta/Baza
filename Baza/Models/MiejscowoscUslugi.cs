@@ -4,7 +4,7 @@ namespace Baza.Models
 {
     public class MiejscowoscUslugi
     {
-        [ScaffoldColumn(false)]
+
         [Key]
         public int MiastoUslugiId { get; set; }
         public int idMiejscowosci { get; set; }

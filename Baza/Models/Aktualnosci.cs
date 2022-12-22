@@ -9,7 +9,6 @@ namespace Baza.Models
 {
     public class Aktualnosci
     {
-        [ScaffoldColumn(false)]
         [Key]
         public int Id { get; set; }
 
@@ -18,23 +17,17 @@ namespace Baza.Models
         [StringLength(50)]
         public string Title { get; set; }
 
-        [Display(Name = "Prześlij plik")]
-        public string ImagePath { get; set; }
-        [NotMapped]
-        //public HttpPostedFileBase ImageFile { get; set; }
+        [DataType(DataType.Upload)]
+        [Display(Name = "Wyślij plik")]
+        public byte[] zdjecie { get; set; }
+
 
         [Display(Name = "Opis")]
         [Required(ErrorMessage = "Musisz podać opis")]
         public string Description { get; set; }
 
-        [Display(Name = "Data wydarzenia")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime? Date { get; set; }
-        [ForeignKey("ApplicationUser")]
-        public string ApplicationUserId { get; set; }
-        //public virtual ApplicationUser ApplicationUser { get; set; }
-
-        public virtual ICollection<MiejscowoscAktualnosci> MiejscowoscAktualnosci { get; set; }
+        [Display(Name = "Data dodania")]
+        public DateTime? Date { get; set; } = DateTime.Now;
     }
 }
 

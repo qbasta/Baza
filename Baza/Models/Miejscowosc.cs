@@ -5,7 +5,7 @@ namespace Baza.Models
 {
     public class Miejscowosc
     {
-        [ScaffoldColumn(false)]
+
         [Key]
         public int idMiejscowosci { get; set; }
 
@@ -22,11 +22,10 @@ namespace Baza.Models
         public int powierzchnia { get; set; }
 
         public virtual Burmistrz Burmitrz { get; set; }
-        public virtual UrzadMiasta UrzadMiasta { get; set; }
+        public virtual UrzadMiastaInfo UrzadMiasta { get; set; }
         public virtual ICollection<Zabytek> Zabytki { get; set; }
-        public virtual ICollection<SerwisMiejscowosc> SerwisMiejscowosc { get; set; }
-        public virtual ICollection<MiejscowoscZgloszenie> MiejscowoscZgloszenie { get; set; }
-        public virtual ICollection<MiejscowoscAktualnosci> MiejscowoscAktualnosci { get; set; }
-        public virtual ICollection<MiejscowoscUslugi> GminaUslugi { get; set; }
+        public virtual ICollection<MiejscowoscOgloszenia> MiejscowoscOgloszenia { get; set; }
+        public virtual ICollection<MiejscowoscUsterki> MiejscowoscAktualnosci { get; set; }
+        public virtual ICollection<MiejscowoscUslugi> MiejscowoscUslugi { get; set; }
     }
 }

@@ -5,7 +5,6 @@ namespace Baza.Models
 {
     public class Zabytek
     {
-        [ScaffoldColumn(false)]
         [Key]
         public int idZabytku { get; set; }
 

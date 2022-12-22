@@ -11,13 +11,13 @@ namespace Baza.Data
         {
         }
     
-        DbSet<Aktualnosci> Aktualnoscis { get; set; }
-        DbSet<Burmistrz> Burmistrzs { get; set; }
-        DbSet<Miejscowosc> Miejscowoscs { get; set; }
-        DbSet<Serwis> Serwis { get; set; }
-        DbSet<UrzadMiasta> UrzadMiastas { get; set; }
-        DbSet<UslugiPubliczne> UslugiPublicznes  { get; set; }
-        DbSet<Usterki> Usterkis { get; set; }
-        DbSet<Zgloszenie> Zgloszenies { get; set; }
+        public DbSet<Aktualnosci> Aktualnoscis { get; set; }
+        public DbSet<Burmistrz> Burmistrzs { get; set; }
+        public DbSet<Miejscowosc> Miejscowoscs { get; set; }
+   
+        public DbSet<UrzadMiastaInfo> UrzadMiastaInfos { get; set; }
+        public DbSet<UslugiPubliczne> UslugiPublicznes  { get; set; }
+        public DbSet<Usterki> Usterkis { get; set; }
+        public DbSet<Ogloszenia> Ogloszenias { get; set; }
     }
 }

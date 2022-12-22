@@ -17,7 +17,7 @@ namespace Baza.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -30,14 +30,10 @@ namespace Baza.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -45,6 +41,10 @@ namespace Baza.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<byte[]>("zdjecie")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
@@ -101,18 +101,18 @@ namespace Baza.Migrations
                     b.ToTable("Miejscowoscs");
                 });
 
-            modelBuilder.Entity("Baza.Models.MiejscowoscAktualnosci", b =>
+            modelBuilder.Entity("Baza.Models.MiejscowoscOgloszenia", b =>
                 {
-                    b.Property<int>("AktualnosciMiejscowoscId")
+                    b.Property<int>("OgloszeniaMiejscowoscId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AktualnosciMiejscowoscId"), 1L, 1);
-
-                    b.Property<int>("AktualnosciId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OgloszeniaMiejscowoscId"), 1L, 1);
 
                     b.Property<int>("MiejscowoscidMiejscowosci")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OgloszeniaidOgloszenia")
                         .HasColumnType("int");
 
                     b.Property<int>("idAktualnosci")
@@ -121,13 +121,13 @@ namespace Baza.Migrations
                     b.Property<int>("idMiejscowosci")
                         .HasColumnType("int");
 
-                    b.HasKey("AktualnosciMiejscowoscId");
-
-                    b.HasIndex("AktualnosciId");
+                    b.HasKey("OgloszeniaMiejscowoscId");
 
                     b.HasIndex("MiejscowoscidMiejscowosci");
 
-                    b.ToTable("MiejscowoscAktualnosci");
+                    b.HasIndex("OgloszeniaidOgloszenia");
+
+                    b.ToTable("MiejscowoscOgloszenia");
                 });
 
             modelBuilder.Entity("Baza.Models.MiejscowoscUslugi", b =>
@@ -159,118 +159,72 @@ namespace Baza.Migrations
                     b.ToTable("MiejscowoscUslugi");
                 });
 
-            modelBuilder.Entity("Baza.Models.MiejscowoscZgloszenie", b =>
+            modelBuilder.Entity("Baza.Models.MiejscowoscUsterki", b =>
                 {
-                    b.Property<int>("ZgloszenieMiastoId")
+                    b.Property<int>("UsterkaMiastoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ZgloszenieMiastoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsterkaMiastoId"), 1L, 1);
 
                     b.Property<int>("MiejscowoscidMiejscowosci")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ZgloszenieidZgloszenia")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idMiejscowosci")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idZgloszenia")
-                        .HasColumnType("int");
-
-                    b.HasKey("ZgloszenieMiastoId");
-
-                    b.HasIndex("MiejscowoscidMiejscowosci");
-
-                    b.HasIndex("ZgloszenieidZgloszenia");
-
-                    b.ToTable("MiejscowoscZgloszenie");
-                });
-
-            modelBuilder.Entity("Baza.Models.Serwis", b =>
-                {
-                    b.Property<int>("idSerwisu")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idSerwisu"), 1L, 1);
-
-                    b.Property<int>("NIP")
-                        .HasColumnType("int");
-
-                    b.Property<string>("adres")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("nazwa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("idSerwisu");
-
-                    b.ToTable("Serwis");
-                });
-
-            modelBuilder.Entity("Baza.Models.SerwisMiejscowosc", b =>
-                {
-                    b.Property<int>("serwisMiejscowoscId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("serwisMiejscowoscId"), 1L, 1);
-
-                    b.Property<int>("MiejscowoscidMiejscowosci")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SerwisidSerwisu")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idMiejscowosci")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idSerwisu")
-                        .HasColumnType("int");
-
-                    b.HasKey("serwisMiejscowoscId");
-
-                    b.HasIndex("MiejscowoscidMiejscowosci");
-
-                    b.HasIndex("SerwisidSerwisu");
-
-                    b.ToTable("SerwisMiejscowosc");
-                });
-
-            modelBuilder.Entity("Baza.Models.SerwisUsterka", b =>
-                {
-                    b.Property<int>("SerwisUsterkaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SerwisUsterkaId"), 1L, 1);
-
-                    b.Property<int>("SerwisidSerwisu")
                         .HasColumnType("int");
 
                     b.Property<int>("UsterkiidUsterki")
                         .HasColumnType("int");
 
-                    b.Property<int>("idSerwisu")
+                    b.Property<int>("idMiejscowosci")
                         .HasColumnType("int");
 
                     b.Property<int>("idUsterki")
                         .HasColumnType("int");
 
-                    b.HasKey("SerwisUsterkaId");
+                    b.HasKey("UsterkaMiastoId");
 
-                    b.HasIndex("SerwisidSerwisu");
+                    b.HasIndex("MiejscowoscidMiejscowosci");
 
                     b.HasIndex("UsterkiidUsterki");
 
-                    b.ToTable("SerwisUsterka");
+                    b.ToTable("MiejscowoscUsterki");
                 });
 
-            modelBuilder.Entity("Baza.Models.UrzadMiasta", b =>
+            modelBuilder.Entity("Baza.Models.Ogloszenia", b =>
+                {
+                    b.Property<int>("idOgloszenia")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idOgloszenia"), 1L, 1);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Miejscowosc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsterkaidUsterki")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("dataZgloszenia")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("opis")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("zdjecie")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("idOgloszenia");
+
+                    b.HasIndex("UsterkaidUsterki");
+
+                    b.ToTable("Ogloszenias");
+                });
+
+            modelBuilder.Entity("Baza.Models.UrzadMiastaInfo", b =>
                 {
                     b.Property<int>("id_Miejscowosci")
                         .HasColumnType("int");
@@ -291,7 +245,7 @@ namespace Baza.Migrations
 
                     b.HasKey("id_Miejscowosci");
 
-                    b.ToTable("UrzadMiastas");
+                    b.ToTable("UrzadMiastaInfos");
                 });
 
             modelBuilder.Entity("Baza.Models.UslugiPubliczne", b =>
@@ -331,9 +285,8 @@ namespace Baza.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idUsterki"), 1L, 1);
 
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Miejscowosc")
                         .IsRequired()
@@ -348,6 +301,10 @@ namespace Baza.Migrations
 
                     b.Property<int>("typUsterki")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("zdjecie")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("idUsterki");
 
@@ -393,46 +350,6 @@ namespace Baza.Migrations
                     b.HasIndex("MiejscowoscidMiejscowosci");
 
                     b.ToTable("Zabytek");
-                });
-
-            modelBuilder.Entity("Baza.Models.Zgloszenie", b =>
-                {
-                    b.Property<int>("idZgloszenia")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idZgloszenia"), 1L, 1);
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Miejscowosc")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsterkaidUsterki")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("dataZgloszenia")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("opis")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("typUsterki")
-                        .HasColumnType("int");
-
-                    b.HasKey("idZgloszenia");
-
-                    b.HasIndex("UsterkaidUsterki");
-
-                    b.ToTable("Zgloszenies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -648,29 +565,29 @@ namespace Baza.Migrations
                     b.Navigation("Miejscowosc");
                 });
 
-            modelBuilder.Entity("Baza.Models.MiejscowoscAktualnosci", b =>
+            modelBuilder.Entity("Baza.Models.MiejscowoscOgloszenia", b =>
                 {
-                    b.HasOne("Baza.Models.Aktualnosci", "Aktualnosci")
-                        .WithMany("MiejscowoscAktualnosci")
-                        .HasForeignKey("AktualnosciId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Baza.Models.Miejscowosc", "Miejscowosc")
-                        .WithMany("MiejscowoscAktualnosci")
+                        .WithMany("MiejscowoscOgloszenia")
                         .HasForeignKey("MiejscowoscidMiejscowosci")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Aktualnosci");
+                    b.HasOne("Baza.Models.Ogloszenia", "Ogloszenia")
+                        .WithMany("MiejscowoscOgloszenia")
+                        .HasForeignKey("OgloszeniaidOgloszenia")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Miejscowosc");
+
+                    b.Navigation("Ogloszenia");
                 });
 
             modelBuilder.Entity("Baza.Models.MiejscowoscUslugi", b =>
                 {
                     b.HasOne("Baza.Models.Miejscowosc", "Miejscowosc")
-                        .WithMany("GminaUslugi")
+                        .WithMany("MiejscowoscUslugi")
                         .HasForeignKey("MiejscowoscidMiejscowosci")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -686,49 +603,11 @@ namespace Baza.Migrations
                     b.Navigation("UslugiPubliczne");
                 });
 
-            modelBuilder.Entity("Baza.Models.MiejscowoscZgloszenie", b =>
+            modelBuilder.Entity("Baza.Models.MiejscowoscUsterki", b =>
                 {
                     b.HasOne("Baza.Models.Miejscowosc", "Miejscowosc")
-                        .WithMany("MiejscowoscZgloszenie")
+                        .WithMany("MiejscowoscAktualnosci")
                         .HasForeignKey("MiejscowoscidMiejscowosci")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Baza.Models.Zgloszenie", "Zgloszenie")
-                        .WithMany("MiejscowoscZgloszenie")
-                        .HasForeignKey("ZgloszenieidZgloszenia")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Miejscowosc");
-
-                    b.Navigation("Zgloszenie");
-                });
-
-            modelBuilder.Entity("Baza.Models.SerwisMiejscowosc", b =>
-                {
-                    b.HasOne("Baza.Models.Miejscowosc", "Miejscowosc")
-                        .WithMany("SerwisMiejscowosc")
-                        .HasForeignKey("MiejscowoscidMiejscowosci")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Baza.Models.Serwis", "Serwis")
-                        .WithMany("SerwisMiejscowosc")
-                        .HasForeignKey("SerwisidSerwisu")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Miejscowosc");
-
-                    b.Navigation("Serwis");
-                });
-
-            modelBuilder.Entity("Baza.Models.SerwisUsterka", b =>
-                {
-                    b.HasOne("Baza.Models.Serwis", "Serwis")
-                        .WithMany("SerwisUsterka")
-                        .HasForeignKey("SerwisidSerwisu")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -738,16 +617,27 @@ namespace Baza.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Serwis");
+                    b.Navigation("Miejscowosc");
 
                     b.Navigation("Usterki");
                 });
 
-            modelBuilder.Entity("Baza.Models.UrzadMiasta", b =>
+            modelBuilder.Entity("Baza.Models.Ogloszenia", b =>
+                {
+                    b.HasOne("Baza.Models.Usterki", "Usterka")
+                        .WithMany()
+                        .HasForeignKey("UsterkaidUsterki")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usterka");
+                });
+
+            modelBuilder.Entity("Baza.Models.UrzadMiastaInfo", b =>
                 {
                     b.HasOne("Baza.Models.Miejscowosc", "Miejscowosc")
                         .WithOne("UrzadMiasta")
-                        .HasForeignKey("Baza.Models.UrzadMiasta", "id_Miejscowosci")
+                        .HasForeignKey("Baza.Models.UrzadMiastaInfo", "id_Miejscowosci")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -763,17 +653,6 @@ namespace Baza.Migrations
                         .IsRequired();
 
                     b.Navigation("Miejscowosc");
-                });
-
-            modelBuilder.Entity("Baza.Models.Zgloszenie", b =>
-                {
-                    b.HasOne("Baza.Models.Usterki", "Usterka")
-                        .WithMany("Zgloszenie")
-                        .HasForeignKey("UsterkaidUsterki")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usterka");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -827,23 +706,16 @@ namespace Baza.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Baza.Models.Aktualnosci", b =>
-                {
-                    b.Navigation("MiejscowoscAktualnosci");
-                });
-
             modelBuilder.Entity("Baza.Models.Miejscowosc", b =>
                 {
                     b.Navigation("Burmitrz")
                         .IsRequired();
 
-                    b.Navigation("GminaUslugi");
-
                     b.Navigation("MiejscowoscAktualnosci");
 
-                    b.Navigation("MiejscowoscZgloszenie");
+                    b.Navigation("MiejscowoscOgloszenia");
 
-                    b.Navigation("SerwisMiejscowosc");
+                    b.Navigation("MiejscowoscUslugi");
 
                     b.Navigation("UrzadMiasta")
                         .IsRequired();
@@ -851,26 +723,14 @@ namespace Baza.Migrations
                     b.Navigation("Zabytki");
                 });
 
-            modelBuilder.Entity("Baza.Models.Serwis", b =>
+            modelBuilder.Entity("Baza.Models.Ogloszenia", b =>
                 {
-                    b.Navigation("SerwisMiejscowosc");
-
-                    b.Navigation("SerwisUsterka");
+                    b.Navigation("MiejscowoscOgloszenia");
                 });
 
             modelBuilder.Entity("Baza.Models.UslugiPubliczne", b =>
                 {
                     b.Navigation("MiejscowoscUslugi");
-                });
-
-            modelBuilder.Entity("Baza.Models.Usterki", b =>
-                {
-                    b.Navigation("Zgloszenie");
-                });
-
-            modelBuilder.Entity("Baza.Models.Zgloszenie", b =>
-                {
-                    b.Navigation("MiejscowoscZgloszenie");
                 });
 #pragma warning restore 612, 618
         }

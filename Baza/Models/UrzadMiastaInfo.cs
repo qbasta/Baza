@@ -4,12 +4,10 @@ using System.Xml.Linq;
 
 namespace Baza.Models
 {
-    public class UrzadMiasta
+    public class UrzadMiastaInfo
     {
-        // [ScaffoldColumn(false)]
         [Key]
         [ForeignKey("Miejscowosc")]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id_Miejscowosci { get; set; }
 
         [Phone]

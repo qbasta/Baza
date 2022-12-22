@@ -31,14 +31,14 @@ namespace Baza.Controllers
             return View();
         }
 
-        [Authorize]
-        public IActionResult AddNotice()
+        
+        public IActionResult DodajUsterke()
         {   
             return View();
         }
 
-        [Authorize]
-        public IActionResult AddPost()
+        
+        public IActionResult DodajOgloszenie()
         {
            
             return View();

@@ -5,7 +5,7 @@ namespace Baza.Models
 {
     public class UslugiPubliczne
     {
-        [ScaffoldColumn(false)]
+        
         [Key]
         public int idUslugiPublicznej { get; set; }
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Baza.Migrations
 {
-    public partial class InitSchema : Migration
+    public partial class InitMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,9 +16,9 @@ namespace Baza.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    zdjecie = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,21 +80,6 @@ namespace Baza.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Serwis",
-                columns: table => new
-                {
-                    idSerwisu = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    nazwa = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    adres = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NIP = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Serwis", x => x.idSerwisu);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UslugiPublicznes",
                 columns: table => new
                 {
@@ -117,9 +102,11 @@ namespace Baza.Migrations
                     idUsterki = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     typUsterki = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Miejscowosc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    dataZgloszenia = table.Column<DateTime>(type: "datetime2", nullable: true),
                     opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Wsp_Lng = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    zdjecie = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -255,35 +242,7 @@ namespace Baza.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MiejscowoscAktualnosci",
-                columns: table => new
-                {
-                    AktualnosciMiejscowoscId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    idMiejscowosci = table.Column<int>(type: "int", nullable: false),
-                    idAktualnosci = table.Column<int>(type: "int", nullable: false),
-                    MiejscowoscidMiejscowosci = table.Column<int>(type: "int", nullable: false),
-                    AktualnosciId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MiejscowoscAktualnosci", x => x.AktualnosciMiejscowoscId);
-                    table.ForeignKey(
-                        name: "FK_MiejscowoscAktualnosci_Aktualnoscis_AktualnosciId",
-                        column: x => x.AktualnosciId,
-                        principalTable: "Aktualnoscis",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MiejscowoscAktualnosci_Miejscowoscs_MiejscowoscidMiejscowosci",
-                        column: x => x.MiejscowoscidMiejscowosci,
-                        principalTable: "Miejscowoscs",
-                        principalColumn: "idMiejscowosci",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UrzadMiastas",
+                name: "UrzadMiastaInfos",
                 columns: table => new
                 {
                     id_Miejscowosci = table.Column<int>(type: "int", nullable: false),
@@ -294,9 +253,9 @@ namespace Baza.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UrzadMiastas", x => x.id_Miejscowosci);
+                    table.PrimaryKey("PK_UrzadMiastaInfos", x => x.id_Miejscowosci);
                     table.ForeignKey(
-                        name: "FK_UrzadMiastas_Miejscowoscs_id_Miejscowosci",
+                        name: "FK_UrzadMiastaInfos_Miejscowoscs_id_Miejscowosci",
                         column: x => x.id_Miejscowosci,
                         principalTable: "Miejscowoscs",
                         principalColumn: "idMiejscowosci",
@@ -329,34 +288,6 @@ namespace Baza.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SerwisMiejscowosc",
-                columns: table => new
-                {
-                    serwisMiejscowoscId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    idMiejscowosci = table.Column<int>(type: "int", nullable: false),
-                    idSerwisu = table.Column<int>(type: "int", nullable: false),
-                    MiejscowoscidMiejscowosci = table.Column<int>(type: "int", nullable: false),
-                    SerwisidSerwisu = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SerwisMiejscowosc", x => x.serwisMiejscowoscId);
-                    table.ForeignKey(
-                        name: "FK_SerwisMiejscowosc_Miejscowoscs_MiejscowoscidMiejscowosci",
-                        column: x => x.MiejscowoscidMiejscowosci,
-                        principalTable: "Miejscowoscs",
-                        principalColumn: "idMiejscowosci",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SerwisMiejscowosc_Serwis_SerwisidSerwisu",
-                        column: x => x.SerwisidSerwisu,
-                        principalTable: "Serwis",
-                        principalColumn: "idSerwisu",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MiejscowoscUslugi",
                 columns: table => new
                 {
@@ -385,27 +316,27 @@ namespace Baza.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SerwisUsterka",
+                name: "MiejscowoscUsterki",
                 columns: table => new
                 {
-                    SerwisUsterkaId = table.Column<int>(type: "int", nullable: false)
+                    UsterkaMiastoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    idSerwisu = table.Column<int>(type: "int", nullable: false),
+                    idMiejscowosci = table.Column<int>(type: "int", nullable: false),
                     idUsterki = table.Column<int>(type: "int", nullable: false),
-                    SerwisidSerwisu = table.Column<int>(type: "int", nullable: false),
+                    MiejscowoscidMiejscowosci = table.Column<int>(type: "int", nullable: false),
                     UsterkiidUsterki = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SerwisUsterka", x => x.SerwisUsterkaId);
+                    table.PrimaryKey("PK_MiejscowoscUsterki", x => x.UsterkaMiastoId);
                     table.ForeignKey(
-                        name: "FK_SerwisUsterka_Serwis_SerwisidSerwisu",
-                        column: x => x.SerwisidSerwisu,
-                        principalTable: "Serwis",
-                        principalColumn: "idSerwisu",
+                        name: "FK_MiejscowoscUsterki_Miejscowoscs_MiejscowoscidMiejscowosci",
+                        column: x => x.MiejscowoscidMiejscowosci,
+                        principalTable: "Miejscowoscs",
+                        principalColumn: "idMiejscowosci",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SerwisUsterka_Usterkis_UsterkiidUsterki",
+                        name: "FK_MiejscowoscUsterki_Usterkis_UsterkiidUsterki",
                         column: x => x.UsterkiidUsterki,
                         principalTable: "Usterkis",
                         principalColumn: "idUsterki",
@@ -413,26 +344,23 @@ namespace Baza.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Zgloszenies",
+                name: "Ogloszenias",
                 columns: table => new
                 {
-                    idZgloszenia = table.Column<int>(type: "int", nullable: false)
+                    idOgloszenia = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Miejscowosc = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     dataZgloszenia = table.Column<DateTime>(type: "datetime2", nullable: true),
                     opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    typUsterki = table.Column<int>(type: "int", nullable: false),
-                    Wsp_Lat = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Wsp_Lng = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    zdjecie = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     UsterkaidUsterki = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Zgloszenies", x => x.idZgloszenia);
+                    table.PrimaryKey("PK_Ogloszenias", x => x.idOgloszenia);
                     table.ForeignKey(
-                        name: "FK_Zgloszenies_Usterkis_UsterkaidUsterki",
+                        name: "FK_Ogloszenias_Usterkis_UsterkaidUsterki",
                         column: x => x.UsterkaidUsterki,
                         principalTable: "Usterkis",
                         principalColumn: "idUsterki",
@@ -440,30 +368,30 @@ namespace Baza.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MiejscowoscZgloszenie",
+                name: "MiejscowoscOgloszenia",
                 columns: table => new
                 {
-                    ZgloszenieMiastoId = table.Column<int>(type: "int", nullable: false)
+                    OgloszeniaMiejscowoscId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     idMiejscowosci = table.Column<int>(type: "int", nullable: false),
-                    idZgloszenia = table.Column<int>(type: "int", nullable: false),
+                    idAktualnosci = table.Column<int>(type: "int", nullable: false),
                     MiejscowoscidMiejscowosci = table.Column<int>(type: "int", nullable: false),
-                    ZgloszenieidZgloszenia = table.Column<int>(type: "int", nullable: false)
+                    OgloszeniaidOgloszenia = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MiejscowoscZgloszenie", x => x.ZgloszenieMiastoId);
+                    table.PrimaryKey("PK_MiejscowoscOgloszenia", x => x.OgloszeniaMiejscowoscId);
                     table.ForeignKey(
-                        name: "FK_MiejscowoscZgloszenie_Miejscowoscs_MiejscowoscidMiejscowosci",
+                        name: "FK_MiejscowoscOgloszenia_Miejscowoscs_MiejscowoscidMiejscowosci",
                         column: x => x.MiejscowoscidMiejscowosci,
                         principalTable: "Miejscowoscs",
                         principalColumn: "idMiejscowosci",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MiejscowoscZgloszenie_Zgloszenies_ZgloszenieidZgloszenia",
-                        column: x => x.ZgloszenieidZgloszenia,
-                        principalTable: "Zgloszenies",
-                        principalColumn: "idZgloszenia",
+                        name: "FK_MiejscowoscOgloszenia_Ogloszenias_OgloszeniaidOgloszenia",
+                        column: x => x.OgloszeniaidOgloszenia,
+                        principalTable: "Ogloszenias",
+                        principalColumn: "idOgloszenia",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -507,14 +435,14 @@ namespace Baza.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MiejscowoscAktualnosci_AktualnosciId",
-                table: "MiejscowoscAktualnosci",
-                column: "AktualnosciId");
+                name: "IX_MiejscowoscOgloszenia_MiejscowoscidMiejscowosci",
+                table: "MiejscowoscOgloszenia",
+                column: "MiejscowoscidMiejscowosci");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MiejscowoscAktualnosci_MiejscowoscidMiejscowosci",
-                table: "MiejscowoscAktualnosci",
-                column: "MiejscowoscidMiejscowosci");
+                name: "IX_MiejscowoscOgloszenia_OgloszeniaidOgloszenia",
+                table: "MiejscowoscOgloszenia",
+                column: "OgloszeniaidOgloszenia");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MiejscowoscUslugi_MiejscowoscidMiejscowosci",
@@ -527,48 +455,31 @@ namespace Baza.Migrations
                 column: "UslugiPubliczneidUslugiPublicznej");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MiejscowoscZgloszenie_MiejscowoscidMiejscowosci",
-                table: "MiejscowoscZgloszenie",
+                name: "IX_MiejscowoscUsterki_MiejscowoscidMiejscowosci",
+                table: "MiejscowoscUsterki",
                 column: "MiejscowoscidMiejscowosci");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MiejscowoscZgloszenie_ZgloszenieidZgloszenia",
-                table: "MiejscowoscZgloszenie",
-                column: "ZgloszenieidZgloszenia");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SerwisMiejscowosc_MiejscowoscidMiejscowosci",
-                table: "SerwisMiejscowosc",
-                column: "MiejscowoscidMiejscowosci");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SerwisMiejscowosc_SerwisidSerwisu",
-                table: "SerwisMiejscowosc",
-                column: "SerwisidSerwisu");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SerwisUsterka_SerwisidSerwisu",
-                table: "SerwisUsterka",
-                column: "SerwisidSerwisu");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SerwisUsterka_UsterkiidUsterki",
-                table: "SerwisUsterka",
+                name: "IX_MiejscowoscUsterki_UsterkiidUsterki",
+                table: "MiejscowoscUsterki",
                 column: "UsterkiidUsterki");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ogloszenias_UsterkaidUsterki",
+                table: "Ogloszenias",
+                column: "UsterkaidUsterki");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Zabytek_MiejscowoscidMiejscowosci",
                 table: "Zabytek",
                 column: "MiejscowoscidMiejscowosci");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Zgloszenies_UsterkaidUsterki",
-                table: "Zgloszenies",
-                column: "UsterkaidUsterki");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Aktualnoscis");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -588,22 +499,16 @@ namespace Baza.Migrations
                 name: "Burmistrzs");
 
             migrationBuilder.DropTable(
-                name: "MiejscowoscAktualnosci");
+                name: "MiejscowoscOgloszenia");
 
             migrationBuilder.DropTable(
                 name: "MiejscowoscUslugi");
 
             migrationBuilder.DropTable(
-                name: "MiejscowoscZgloszenie");
+                name: "MiejscowoscUsterki");
 
             migrationBuilder.DropTable(
-                name: "SerwisMiejscowosc");
-
-            migrationBuilder.DropTable(
-                name: "SerwisUsterka");
-
-            migrationBuilder.DropTable(
-                name: "UrzadMiastas");
+                name: "UrzadMiastaInfos");
 
             migrationBuilder.DropTable(
                 name: "Zabytek");
@@ -615,16 +520,10 @@ namespace Baza.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Aktualnoscis");
+                name: "Ogloszenias");
 
             migrationBuilder.DropTable(
                 name: "UslugiPublicznes");
-
-            migrationBuilder.DropTable(
-                name: "Zgloszenies");
-
-            migrationBuilder.DropTable(
-                name: "Serwis");
 
             migrationBuilder.DropTable(
                 name: "Miejscowoscs");
