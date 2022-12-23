@@ -31,8 +31,8 @@ namespace Baza.Models
         public byte[] zdjecie { get; set; }
         */
       
-        public virtual ICollection<MiejscowoscOgloszenia> MiejscowoscOgloszenia { get; set; }
-        public virtual Usterki Usterka { get; set; }
+       // public virtual ICollection<MiejscowoscOgloszenia> MiejscowoscOgloszenia { get; set; }
+       // public virtual Usterki Usterka { get; set; }
     }
 
  

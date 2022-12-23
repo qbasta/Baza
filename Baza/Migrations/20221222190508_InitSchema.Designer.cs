@@ -4,6 +4,7 @@ using Baza.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Baza.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221222190508_InitSchema")]
+    partial class InitSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,6 +205,9 @@ namespace Baza.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UsterkaidUsterki")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("dataZgloszenia")
                         .HasColumnType("datetime2");
 
@@ -211,6 +216,8 @@ namespace Baza.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("idOgloszenia");
+
+                    b.HasIndex("UsterkaidUsterki");
 
                     b.ToTable("Ogloszenia");
                 });
@@ -561,7 +568,7 @@ namespace Baza.Migrations
                         .IsRequired();
 
                     b.HasOne("Baza.Models.Ogloszenia", "Ogloszenia")
-                        .WithMany()
+                        .WithMany("MiejscowoscOgloszenia")
                         .HasForeignKey("OgloszeniaidOgloszenia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -607,6 +614,17 @@ namespace Baza.Migrations
                     b.Navigation("Miejscowosc");
 
                     b.Navigation("Usterki");
+                });
+
+            modelBuilder.Entity("Baza.Models.Ogloszenia", b =>
+                {
+                    b.HasOne("Baza.Models.Usterki", "Usterka")
+                        .WithMany()
+                        .HasForeignKey("UsterkaidUsterki")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usterka");
                 });
 
             modelBuilder.Entity("Baza.Models.UrzadMiastaInfo", b =>
@@ -697,6 +715,11 @@ namespace Baza.Migrations
                         .IsRequired();
 
                     b.Navigation("Zabytki");
+                });
+
+            modelBuilder.Entity("Baza.Models.Ogloszenia", b =>
+                {
+                    b.Navigation("MiejscowoscOgloszenia");
                 });
 
             modelBuilder.Entity("Baza.Models.UslugiPubliczne", b =>
